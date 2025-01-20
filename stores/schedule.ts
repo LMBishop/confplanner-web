@@ -83,11 +83,15 @@ export const useScheduleStore = defineStore('schedule', () => {
   const setSchedule = (newSchedule: Schedule) => {
     schedule.value = newSchedule
     
+    console.log(newSchedule)
+    
     tracks.value = {}
     schedule.value.tracks.forEach(track => {
       track.slug = convertToSlug(track.name)
       tracks.value[track.name] = track
     });
+    
+    console.log("hi")
 
     events.value = []
     schedule.value.days.forEach(day => {
@@ -106,6 +110,9 @@ export const useScheduleStore = defineStore('schedule', () => {
     events.value.sort((a, b) => { 
       return a.start.getTime() - b.start.getTime()
     })
+
+    console.log("hi2")
+    console.log(newSchedule)
 
     eventsPerDay.value = {}
     events.value.forEach(event => {
@@ -129,8 +136,8 @@ export const useScheduleStore = defineStore('schedule', () => {
 })
 
 function normalizeDates(event: Event, timeZone: string) {
-  event.start = new TZDate(event.date, timeZone)
-  event.end = new TZDate(event.start.getTime() + parseDuration(event.duration), timeZone)
+  event.start = new TZDate(event.start, timeZone)
+  event.end = new TZDate(event.end, timeZone)
 }
 
 function parseDuration(duration: string) {

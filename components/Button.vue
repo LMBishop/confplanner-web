@@ -45,6 +45,7 @@ button {
   border-radius: 0.375rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   font-size: var(--text-small);
+  font-family: var(--font-family);
   font-weight: 500;
   color: white;
   background-color: var(--color-primary);

@@ -79,6 +79,7 @@ input {
   border-radius: 0.375rem; 
   box-sizing: border-box;
   /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);  */
+  font-family: var(--font-family);
   color: var(--color-text); 
   font-size: var(--text-small); 
 }

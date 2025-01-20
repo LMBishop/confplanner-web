@@ -4,12 +4,74 @@ import Panel from '~/components/Panel.vue';
 
 const favouritesStore = useFavouritesStore();
 const scheduleStore = useScheduleStore();
+const errorStore = useErrorStore();
+const config = useRuntimeConfig();
 
 const favouriteEvents = computed(() => {
   return scheduleStore.events.filter((event) => favouritesStore.isFavourite(event));
 });
 
-console.log(favouriteEvents.value);
+const calendarStatus = ref('pending' as 'pending' | 'idle');
+const calendarLink = ref('')
+const calendarLinkWithPageProtocol = computed(() => {
+  return window.location.protocol + '//' + calendarLink.value;
+});
+
+const calendarAction = ref(false);
+
+useFetch(config.public.baseURL + '/calendar', {
+  method: 'GET',
+  server: false,
+  lazy: true,
+  onResponseError: ({ response }) => {
+    calendarStatus.value = 'idle';
+  },
+  onResponse: ({ response }) => {
+    if (!response.ok) {
+      if (response.status !== 404) {
+        errorStore.setError(response._data.message || 'An unknown error occurred');
+      }
+    } else if (response._data) {
+      calendarLink.value = (response._data as any).data.url;
+    }
+    calendarStatus.value = 'idle';
+  },
+});
+
+function generateCalendar() {
+  calendarAction.value = true;
+  useFetch(config.public.baseURL + '/calendar', {
+    method: 'POST',
+    server: false,
+  lazy: true,
+    onResponseError: ({ response }) => {
+      errorStore.setError(response._data.message || 'An unknown error occurred');
+      calendarAction.value = false;
+    },
+    onResponse: ({ response }) => {
+      if (response._data) {
+        calendarLink.value = (response._data as any).data.url;
+      }
+      calendarAction.value = false;
+    },
+  });
+}
+
+function deleteCalendar() {
+  calendarAction.value = true;
+  useFetch(config.public.baseURL + '/calendar', {
+    method: 'DELETE',
+    server: false,
+    onResponseError: ({ response }) => {
+      errorStore.setError(response._data.message || 'An unknown error occurred');
+      calendarAction.value = false;
+    },
+    onResponse: () => {
+      calendarLink.value = '';
+      calendarAction.value = false;
+    },
+  });
+}
 
 </script>
 
@@ -17,18 +79,42 @@ console.log(favouriteEvents.value);
   <Panel v-if="favouritesStore.status === 'pending'">
     <span>Updating favourites...</span>
   </Panel>
-  <Panel v-else-if="favouriteEvents.length > 0">
-    <h2 class="agenda-title">Agenda</h2>
-    <ul class="agenda-list">
-      <li 
-        v-for="event in favouriteEvents" 
-        :key="event.id" 
-        class="agenda-item"
-      >
-        <EventListing :event="event" />
-      </li>
-    </ul>
-  </Panel>
+
+  <template v-else-if="favouriteEvents.length > 0">
+    <div class="page">
+      <Panel>
+        <h2 class="agenda-title">Agenda</h2>
+        <ul class="agenda-list">
+          <li 
+            v-for="event in favouriteEvents" 
+            :key="event.id" 
+            class="agenda-item"
+          >
+            <EventListing :event="event" />
+          </li>
+        </ul>
+      </Panel>
+      <Panel>
+        <h2 class="calendar-title">Calendar</h2>
+        <template v-if="calendarStatus === 'pending'">
+          <span>Fetching calendar status...</span>
+        </template>
+        
+        <div v-else-if="calendarStatus === 'idle'" class="calendar">
+          <template v-if="calendarLink">
+            <span>You can add your agenda to your own calendar using the iCal link below.</span>
+            <Input :value="calendarLinkWithPageProtocol" disabled/>
+            <Button @click="deleteCalendar" :loading="calendarAction">Delete calendar</Button>
+          </template>
+          <template v-else>
+            <span>You do not have a calendar link yet. Use the button below to request a calendar link synchronise with your own calendar app.</span>
+            <Button @click="generateCalendar" :loading="calendarAction">Request calendar</Button>
+          </template>
+        </div>
+      </Panel>
+    </div>
+  </template>
+
   <Panel v-else>
     <span>You have not added any favourites yet.</span>
   </Panel>
@@ -46,7 +132,7 @@ console.log(favouriteEvents.value);
   border-bottom: 1px solid var(--color-background-muted); 
 }
 
-.agenda-title {
+.agenda-title, .calendar-title {
   margin-bottom: 1rem;
 }
 
@@ -54,4 +140,10 @@ console.log(favouriteEvents.value);
   border-bottom: none; 
 }
 
+.page, .calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  line-height: 1.3;
+}
 </style>
