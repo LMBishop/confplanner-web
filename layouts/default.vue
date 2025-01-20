@@ -2,6 +2,7 @@
 import { LucideCross, LucideMenu, LucideX } from "lucide-vue-next";
 import Dialog from "~/components/Dialog.vue";
 import EventDetail from "~/components/EventDetail.vue";
+import Sidebar from "~/components/Sidebar.vue";
 
 definePageMeta({
   middleware: ["logged-in"]
@@ -81,27 +82,22 @@ router.beforeEach((to, from) => {
 
 <template>
   <div class="planner-container">
-    <header class="planner-header">
-      <h1 class="planner-title">Conference Planner</h1>
-      <span class="hamburger" @click="showHamburger = !showHamburger">
-        <LucideMenu :size="24" v-if="!showHamburger"/>
-        <LucideX :size="24" v-else />
-      </span>
+    <header>
+      <div class="planner-header">
+        <h1 class="planner-title">Conference Planner</h1>
+        <span class="hamburger" @click="showHamburger = !showHamburger">
+          <LucideMenu :size="24" v-if="!showHamburger"/>
+          <LucideX :size="24" v-else />
+        </span>
+      </div>
+      <div class="hamburger-content" v-if="showHamburger">
+        <Sidebar />
+      </div>
     </header>
     <div class="planner-layout">
       <template v-if="scheduleStore.schedule">
-        <aside :class="['planner-sidebar', { show: showHamburger }]">
-          <Panel class="conference">
-            <span class="conference-title">{{ scheduleStore.schedule?.conference.title }}</span>
-            <span class="conference-venue">{{ scheduleStore.schedule?.conference.venue }}</span>
-            <span class="conference-city">{{ scheduleStore.schedule?.conference.city }}</span>
-          </Panel>
-          
-          <Nav />
-
-          <div class="info">
-            <span>Times listed are in local time ({{ scheduleStore.schedule?.conference.timeZoneName }})</span>
-          </div>
+        <aside class="planner-sidebar">
+          <Sidebar />
         </aside>
 
         <main class="planner-content">
@@ -135,7 +131,12 @@ router.beforeEach((to, from) => {
 .planner-container {
   min-height: 100vh;
   background-color: var(--color-background); 
-  overflow-x: hidden;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }
 
 .planner-header {
@@ -169,33 +170,10 @@ router.beforeEach((to, from) => {
 .planner-sidebar {
   width: 100%;
   max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  position: sticky;
+  top: 0;
 }
 
-.conference {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.conference-title {
-  font-weight: 600;
-  font-size: var(--text-normal);
-}
-
-.conference-venue, .conference-city {
-  font-size: var(--text-small);
-  color: var(--color-text-muted);
-}
-
-.info {
-  font-size: var(--text-smaller);
-  color: var(--color-text-muted);
-  margin: 0 1rem;
-}
-  
 .loading-text {
   display: flex;
   justify-content: center;
@@ -213,11 +191,13 @@ router.beforeEach((to, from) => {
   display: none;
 }
       
-@media (max-width: 768px) {
-  /* .planner-header {
-    padding: 1rem 0.5rem;
-  } */
+@media (min-width: 768px) {
+  .hamburger-content {
+    display: none;
+  }
+}
 
+@media (max-width: 768px) {
   .planner-layout {
     flex-direction: column;
     padding: 0.5rem;
@@ -226,6 +206,12 @@ router.beforeEach((to, from) => {
   .hamburger {
     display: block;
     cursor: pointer;
+  }
+  
+  .hamburger-content {
+    background-color: var(--color-background-muted);
+    padding: 1rem;
+    border-bottom: 2px solid var(--color-border)
   }
   
   .planner-sidebar {
@@ -237,5 +223,5 @@ router.beforeEach((to, from) => {
     display: flex;
   }
 }
-
+      
 </style>

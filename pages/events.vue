@@ -10,11 +10,7 @@ const scheduleStore = useScheduleStore();
     <h2 class="events-title">Events</h2>
     <div v-for="[day, events] of Object.entries(scheduleStore.eventsPerDay)" :key="day">
       <ul class="events-list">
-        <li 
-          v-for="event in events" 
-          :key="event.id" 
-          class="event-item"
-        >
+        <li v-for="event in events" :key="event.id" class="event-item" :data-index="event.id">
           <EventListing :event="event" />
         </li>
       </ul>
@@ -31,7 +27,7 @@ const scheduleStore = useScheduleStore();
 }
 
 .event-item {
-  border-bottom: 1px solid var(--color-background-muted); 
+  border-bottom: 1px solid var(--color-background-muted);
 }
 
 .events-title {
@@ -39,7 +35,6 @@ const scheduleStore = useScheduleStore();
 }
 
 .event-item:last-child {
-  border-bottom: none; 
+  border-bottom: none;
 }
-
 </style>
