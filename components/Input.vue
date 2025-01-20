@@ -47,6 +47,11 @@ export default {
       required: false,
       default: false,
     },
+    readonly: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     inputClass: {
       type: String,
       required: false,
@@ -66,6 +71,7 @@ export default {
     :placeholder="placeholder"
     :disabled="disabled"
     :required="required"
+    :readonly="readonly"
   />
 </template>
 

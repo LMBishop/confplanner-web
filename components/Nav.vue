@@ -26,7 +26,7 @@ route.afterEach(() => {
     <ul class="nav-list">
       <li v-for="item in navList" :key="item.title" :class="{ active: $route.path === item.path }">
         <NuxtLink :to="item.path">
-          <span>{{ item.title }}</span> <Spinner v-if="item.navigating" color="var(--color-text-muted)" size="16"/></NuxtLink>
+          <span>{{ item.title }}</span> <Spinner v-if="item.navigating" color="var(--color-text-muted)" :size="16"/></NuxtLink>
           
       </li>
     </ul>

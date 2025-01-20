@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LucideCross, LucideMenu, LucideX } from "lucide-vue-next";
 import Dialog from "~/components/Dialog.vue";
 import EventDetail from "~/components/EventDetail.vue";
 
@@ -18,6 +19,8 @@ const { error } = storeToRefs(errorStore);
 
 const refSelectedDialog = ref<typeof Dialog>();
 const refErrorDialog = ref<typeof Dialog>();
+
+const showHamburger = ref(false);
 
 useFetch(config.public.baseURL + '/schedule', {
   method: 'GET',
@@ -73,16 +76,21 @@ router.beforeEach((to, from) => {
   refSelectedDialog.value?.close();
   refErrorDialog.value?.close();
 });
+
 </script>
 
 <template>
   <div class="planner-container">
     <header class="planner-header">
       <h1 class="planner-title">Conference Planner</h1>
+      <span class="hamburger" @click="showHamburger = !showHamburger">
+        <LucideMenu :size="24" v-if="!showHamburger"/>
+        <LucideX :size="24" v-else />
+      </span>
     </header>
     <div class="planner-layout">
       <template v-if="scheduleStore.schedule">
-        <aside class="planner-sidebar">
+        <aside :class="['planner-sidebar', { show: showHamburger }]">
           <Panel class="conference">
             <span class="conference-title">{{ scheduleStore.schedule?.conference.title }}</span>
             <span class="conference-venue">{{ scheduleStore.schedule?.conference.venue }}</span>
@@ -134,6 +142,8 @@ router.beforeEach((to, from) => {
   background-color: var(--color-primary); 
   color: white; 
   padding: 1rem; 
+  display: flex;
+  justify-content: space-between;
 }
 
 .planner-title {
@@ -150,8 +160,9 @@ router.beforeEach((to, from) => {
   display: flex;
   flex-direction: row;
   gap: 1rem; 
-  padding: 1rem; 
   width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
   justify-content: center;
 }
   
@@ -196,6 +207,35 @@ router.beforeEach((to, from) => {
   
 .loading {
   margin-top: 1rem;
+}
+  
+.hamburger {
+  display: none;
+}
+      
+@media (max-width: 768px) {
+  /* .planner-header {
+    padding: 1rem 0.5rem;
+  } */
+
+  .planner-layout {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+  
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+  
+  .planner-sidebar {
+    max-width: 100%;
+    display: none;
+  }
+  
+  .planner-sidebar.show {
+    display: flex;
+  }
 }
 
 </style>

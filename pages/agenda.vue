@@ -103,7 +103,7 @@ function deleteCalendar() {
         <div v-else-if="calendarStatus === 'idle'" class="calendar">
           <template v-if="calendarLink">
             <span>You can add your agenda to your own calendar using the iCal link below.</span>
-            <Input :value="calendarLinkWithPageProtocol" disabled/>
+            <Input :value="calendarLinkWithPageProtocol" readonly/>
             <Button @click="deleteCalendar" :loading="calendarAction">Delete calendar</Button>
           </template>
           <template v-else>
