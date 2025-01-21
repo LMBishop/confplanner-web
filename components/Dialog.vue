@@ -72,9 +72,8 @@ dialog.normal {
 }
 
 dialog.error {
-  border: 2px solid var(--color-background-error-dark);
-  background-color: var(--color-background-error);
-  color: white;
+  border: 2px solid var(--color-border-error);
+  background-color: var(--color-error);
 }
 
 dialog.fit {
@@ -84,7 +83,7 @@ dialog.fit {
 
 dialog::backdrop {
   backdrop-filter: blur(4px);
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 div.actions {

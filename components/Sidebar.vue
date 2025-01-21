@@ -29,7 +29,7 @@ const timeUntilConferenceStart = computed(() => {
     </Panel>
     
     <Panel kind="success" class="ongoing" v-if="scheduleStore.isConferenceOngoing()">
-      <span class="text-icon"><LucideRadio size="var(--text-small)"/> <span>This conference is ongoing</span></span>
+      <span class="text-icon"><LucideRadio /> <span>This conference is ongoing</span></span>
       <Button kind="primary" @click="navigateTo('/live')">View live</Button>
     </Panel> 
 
@@ -38,7 +38,7 @@ const timeUntilConferenceStart = computed(() => {
     </Panel> 
     
     <Panel class="upcoming" v-else>
-      <span class="text-icon"><LucideClock size="var(--text-small)" /> <span>Starts in {{ formatDistanceToNow(scheduleStore.getStartDate()) }}</span></span>
+      <span class="text-icon"><LucideClock /> <span>Starts in {{ formatDistanceToNow(scheduleStore.getStartDate()) }}</span></span>
     </Panel>
     
     <Nav />
@@ -64,6 +64,11 @@ const timeUntilConferenceStart = computed(() => {
   font-size: var(--text-small);
   font-style: oblique;
   text-align: center;
+}
+
+.finished svg, .ongoing svg, .upcoming svg{
+  height: var(--text-small)  ;
+  width: var(--text-small);
 }
 
 .conference {

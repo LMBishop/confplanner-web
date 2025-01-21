@@ -220,6 +220,8 @@ header {
     padding: 1rem;
     border-bottom: 2px solid var(--color-border);
     position: fixed;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .planner-sidebar {
