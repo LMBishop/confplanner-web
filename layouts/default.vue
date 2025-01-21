@@ -149,6 +149,8 @@ header {
   padding: 1rem; 
   display: flex;
   justify-content: space-between;
+  z-index: 9999;
+  position: relative;
 }
 
 .planner-title {
@@ -220,8 +222,10 @@ header {
     padding: 1rem;
     border-bottom: 2px solid var(--color-border);
     position: fixed;
+    top: calc(3.5rem);
     width: 100%;
     box-sizing: border-box;
+    z-index: 9998;
   }
   
   .planner-sidebar {
