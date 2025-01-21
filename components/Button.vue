@@ -1,39 +1,39 @@
-<script setup>
+<script setup lang="ts">
 import { Loader2Icon } from 'lucide-vue-next'
+import { defineProps } from 'vue';
+
+defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  type: {
+    type: String as PropType<"button" | "submit" | "reset">,
+    default: "",
+  },
+  kind: {
+    type: String as PropType<"primary" | "secondary">,
+    default: "primary",
+  },
+});
 </script>
 
 <template>
-  <button :type="type" :disabled="disabled || loading">
+  <button :type="type" :disabled="disabled || loading" :class="kind">
     <Loader2Icon v-if="loading" class="icon-loader" />
     <span>
       <slot />
     </span>
   </button>
 </template>
-
-<script>
-export default {
-  name: "Button",
-  props: {
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    type: {
-      type: String,
-      default: "",
-    },
-  },
-};
-</script>
 
 <style scoped>
 button {
@@ -43,12 +43,10 @@ button {
   padding: 0.5rem 1rem;
   border: 1px solid transparent;
   border-radius: 0.375rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   font-size: var(--text-small);
   font-family: var(--font-family);
   font-weight: 500;
   color: white;
-  background-color: var(--color-primary);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -60,7 +58,6 @@ button:hover {
 button:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
 }
 
 button:disabled {
@@ -75,6 +72,22 @@ button:disabled {
   height: 1.25rem;
   width: 1.25rem;
   color: white;
+}
+  
+button.primary {
+  background-color: var(--color-primary);
+}
+  
+button.secondary {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+  
+button.secondary:hover {
+  background-color: var(--color-background-muted);
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
 }
 
 @keyframes spin {

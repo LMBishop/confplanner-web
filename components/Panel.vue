@@ -1,15 +1,38 @@
+<script setup lang="ts">
+import { defineProps, type PropType } from 'vue';
+
+defineProps({
+  kind: {
+    type: String as PropType<"normal" | "error" | "success">,
+    required: false,
+    default: 'normal',
+  },
+});
+</script>
 <template>
-  <div class="card">
+  <div class="card" :class="kind">
     <slot />
   </div>
 </template>
 
 <style>
 .card {
-  background-color: white;
   padding: 1rem; 
   border-radius: 0.5rem; 
-  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); */
+}
+
+.normal {
+  background-color: white;
   border: 0.1rem solid var(--color-border);
+}
+
+.error {
+  background-color: var(--color-error);
+  border: 0.1rem solid var(--color-border-error);
+}
+
+.success {
+  background-color: var(--color-success);
+  border: 0.1rem solid var(--color-border-success);
 }
 </style>

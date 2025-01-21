@@ -2,9 +2,9 @@ import { type Event } from "./schedule";
 import { defineStore } from "pinia";
 
 export const useErrorStore = defineStore('error', () => {
-  const error = ref(null as Event | null)
-  const setError = (event: Event) => {
-    error.value = event
+  const error = ref(null as string | null)
+  const setError = (newError: string) => {
+    error.value = newError
   }
   const clearError = () => {
     error.value = null

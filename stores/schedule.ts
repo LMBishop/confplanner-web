@@ -81,20 +81,14 @@ export const useScheduleStore = defineStore('schedule', () => {
   const tracks = ref({} as { [key: string]: Track })
   
   const setSchedule = (newSchedule: Schedule) => {
-    schedule.value = newSchedule
-    
-    console.log(newSchedule)
-    
     tracks.value = {}
-    schedule.value.tracks.forEach(track => {
+    newSchedule.tracks.forEach(track => {
       track.slug = convertToSlug(track.name)
       tracks.value[track.name] = track
     });
     
-    console.log("hi")
-
     events.value = []
-    schedule.value.days.forEach(day => {
+    newSchedule.days.forEach(day => {
       day.start = new TZDate(day.start, newSchedule.conference.timeZoneName)
       day.end = new TZDate(day.end, newSchedule.conference.timeZoneName)
       day.rooms.forEach(room => {
@@ -111,8 +105,7 @@ export const useScheduleStore = defineStore('schedule', () => {
       return a.start.getTime() - b.start.getTime()
     })
 
-    console.log("hi2")
-    console.log(newSchedule)
+    schedule.value = newSchedule
 
     eventsPerDay.value = {}
     events.value.forEach(event => {
@@ -132,7 +125,25 @@ export const useScheduleStore = defineStore('schedule', () => {
     });
   }
   
-  return {schedule, events, eventsPerDay, eventsPerTrack, setSchedule}
+  const isConferenceOngoing = () => {
+    if (!schedule.value) {
+      return false
+    }
+    return new Date() >= schedule.value.conference.start && new Date() < schedule.value.conference.end
+  }
+  
+  const isConferenceFinished = () => {
+    if (!schedule.value) {
+      return false
+    }
+    return new Date() > schedule.value.conference.end
+  }
+  
+  const getStartDate = () => {
+    return schedule.value?.conference.start || 0
+  }
+  
+  return {schedule, events, eventsPerDay, eventsPerTrack, setSchedule, isConferenceOngoing, isConferenceFinished, getStartDate}
 })
 
 function normalizeDates(event: Event, timeZone: string) {

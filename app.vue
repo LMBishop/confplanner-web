@@ -3,9 +3,9 @@
 </script>
 
 <template>
+  <NuxtPwaManifest />
+
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  
-  <NuxtPwaManifest />
 </template>

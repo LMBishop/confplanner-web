@@ -48,7 +48,7 @@ route.afterEach(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-text-muted);
+  color: var(--color-accent);
   padding: 0.4rem 1rem;
   left: -1rem;
   width: calc(100%);
@@ -56,7 +56,7 @@ route.afterEach(() => {
 }
 
 .nav-list > li.active > a {
-  color: var(--color-text);
+  color: var(--color-primary);
   font-weight: 600;
   background-color: var(--color-background-muted);
 }

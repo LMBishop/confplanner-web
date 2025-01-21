@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LucideCross, LucideMenu, LucideX } from "lucide-vue-next";
+import { LucideMenu, LucideX } from "lucide-vue-next";
 import Dialog from "~/components/Dialog.vue";
 import EventDetail from "~/components/EventDetail.vue";
 import Sidebar from "~/components/Sidebar.vue";
@@ -76,6 +76,10 @@ watch(error, () => {
 router.beforeEach((to, from) => {
   refSelectedDialog.value?.close();
   refErrorDialog.value?.close();
+});
+
+router.afterEach(() => {
+  showHamburger.value = false;
 });
 
 </script>
@@ -155,6 +159,9 @@ header {
 .planner-content {
   max-width: 1000px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .planner-layout {
@@ -211,7 +218,8 @@ header {
   .hamburger-content {
     background-color: var(--color-background-muted);
     padding: 1rem;
-    border-bottom: 2px solid var(--color-border)
+    border-bottom: 2px solid var(--color-border);
+    position: fixed;
   }
   
   .planner-sidebar {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Panel from '~/components/Panel.vue';
-
+import { LucideRadio } from "lucide-vue-next";
 
 const favouritesStore = useFavouritesStore();
 const scheduleStore = useScheduleStore();
