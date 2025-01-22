@@ -40,6 +40,12 @@ const handleSubmit = async (e: Event) => {
   isLoading.value = false
 }
 
+onMounted(() => {
+  if (history.state.error) {
+    error.value = history.state.error as string
+  }
+})
+
 </script>
 
 <template>
@@ -79,8 +85,11 @@ const handleSubmit = async (e: Event) => {
               Sign in
             </Button>
           </div>
+
+          <Version class="version" />
         </form>
       </Panel>
+
     </div>
 
     <div class="form-footer">
@@ -88,6 +97,7 @@ const handleSubmit = async (e: Event) => {
         Register
       </NuxtLink>
     </div>
+
   </div>
 </template>
 
@@ -131,7 +141,8 @@ const handleSubmit = async (e: Event) => {
 }
 
 .auth-error {
-  color: var(--color-error);
+  color: var(--color-text-error);
+  font-style: oblique;
 }
 
 .form-group {
@@ -155,6 +166,12 @@ const handleSubmit = async (e: Event) => {
   justify-content: flex-end;
   margin: 0 auto;
   max-width: 28rem;
+}
+
+.version {
+  font-size: var(--text-smaller);
+  margin: 0 auto;
+  color: var(--color-text-muted-light);
 }
 
 .register-link {

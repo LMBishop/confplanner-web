@@ -8,11 +8,11 @@
   --color-error: #f8d7da;
   --color-success: #d1e7dd;
   --color-text: #000;
+  --color-text-error: #cf2f27;
   --color-text-muted: #4b5563;
+  --color-text-muted-light: #6b7280;
   --color-background-muted: #f3f4f6;
   --color-background: #fff;
-  --color-background-error: #cf2f27;
-  --color-background-error-dark: #c12820;
   --color-border: #d1d9e0;
   --color-border-error: #f1aeb5;
   --color-border-success: #a3cfbb;
@@ -84,6 +84,6 @@ ul {
 
 span.text-icon {
   display: flex;
-  align-items: centerg;
+  align-items: center;
   gap: 0.4em;
 }

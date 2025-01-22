@@ -1,4 +1,3 @@
-import { type Event } from "./schedule";
 import { defineStore } from "pinia";
 
 export const useErrorStore = defineStore('error', () => {

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { Calendar, Icon, SquareGanttChart, TrainTrack } from 'lucide-vue-next';
+
 const route = useRouter();
 
 const navList = ref([
-  { title: "Agenda", path: "/agenda", navigating: false },
-  { title: "Events", path: "/events", navigating: false },
-  { title: "Tracks", path: "/tracks", navigating: false },
+  { title: "Agenda", path: "/agenda", icon: Calendar, navigating: false },
+  { title: "Events", path: "/events", icon: SquareGanttChart, navigating: false },
+  { title: "Tracks", path: "/tracks", icon: TrainTrack, navigating: false },
 ])
 
 route.beforeEach((to, from, next) => {
@@ -26,14 +28,18 @@ route.afterEach(() => {
     <ul class="nav-list">
       <li v-for="item in navList" :key="item.title" :class="{ active: $route.path === item.path }">
         <NuxtLink :to="item.path">
-          <span>{{ item.title }}</span> <Spinner v-if="item.navigating" color="var(--color-text-muted)" :size="16"/></NuxtLink>
-          
+          <span class="text-icon"><component :is="item.icon" /> <span>{{ item.title }}</span></span> <Spinner v-if="item.navigating" color="var(--color-text-muted)" :size="16"/></NuxtLink>
       </li>
     </ul>
   </Panel>
 </template>
 
 <style scoped>
+.text-icon > svg {
+  width: var(--text-normal);
+  height: var(--text-normal);
+}
+
 .nav-list {
   list-style: none;
   padding: 0;

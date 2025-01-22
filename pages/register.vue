@@ -79,6 +79,8 @@ const handleSubmit = async (e: Event) => {
               Register
             </Button>
           </div>
+
+          <Version class="version" />
         </form>
       </Panel>
     </div>
@@ -164,6 +166,17 @@ const handleSubmit = async (e: Event) => {
 
 .form-submit {
   display: flex;
+}
+
+.auth-error {
+  color: var(--color-text-error);
+  font-style: oblique;
+}
+
+.version {
+  font-size: var(--text-smaller);
+  margin: 0 auto;
+  color: var(--color-text-muted-light);
 }
 
 input[name="username"] {

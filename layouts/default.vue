@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LucideMenu, LucideX } from "lucide-vue-next";
+import { BookHeart, LucideMenu, LucideX } from "lucide-vue-next";
 import Dialog from "~/components/Dialog.vue";
 import EventDetail from "~/components/EventDetail.vue";
 import Sidebar from "~/components/Sidebar.vue";
@@ -9,9 +9,7 @@ definePageMeta({
 })
 
 const scheduleStore = useScheduleStore();
-const config = useRuntimeConfig()
 const selectedEventStore = useSelectedEventStore();
-const favouritesStore = useFavouritesStore();
 const errorStore = useErrorStore();
 const router = useRouter();
 
@@ -23,43 +21,8 @@ const refErrorDialog = ref<typeof Dialog>();
 
 const showHamburger = ref(false);
 
-useFetch(config.public.baseURL + '/schedule', {
-  method: 'GET',
-  server: false,
-  lazy: true,
-  onResponse: ({ response }) => {
-    if (!response.ok) {
-      if (response.status === 401) {
-        navigateTo('/login');
-      } else {
-        errorStore.setError(response._data.message || 'An unknown error occurred');
-      }
-    }
-
-    if (response._data) {
-      scheduleStore.setSchedule((response._data as any).data.schedule);
-    }
-  },
-});
-
-favouritesStore.setStatus('pending')
-
-await useFetch(config.public.baseURL + '/favourites', {
-  method: 'GET',
-  server: false,
-  lazy: true,
-  onResponseError: ({ response }) => {
-    favouritesStore.setStatus('idle')
-    errorStore.setError(response._data.message || 'An unknown error occurred');
-  },
-  onResponse: ({ response }) => {
-    if (response._data) {
-      favouritesStore.setFavourites((response._data as any).data);
-    }
-    favouritesStore.setStatus('idle')
-  },
-});
-
+fetchSchedule();
+fetchFavourites();
 
 watch(selectedEvent, () => {
   if (selectedEvent.value != null) {
@@ -88,7 +51,7 @@ router.afterEach(() => {
   <div class="planner-container">
     <header>
       <div class="planner-header">
-        <h1 class="planner-title">Conference Planner</h1>
+        <span class="text-icon planner-title" @click="navigateTo('/')"><BookHeart /> confplanner</span>
         <span class="hamburger" @click="showHamburger = !showHamburger">
           <LucideMenu :size="24" v-if="!showHamburger"/>
           <LucideX :size="24" v-else />
@@ -143,30 +106,38 @@ header {
   z-index: 9999;
 }
 
-.planner-header {
-  background-color: var(--color-primary); 
-  color: white; 
-  padding: 1rem; 
+div.planner-header {
+  background-color: var(--color-background-muted); 
+  color: var(--color-text-muted); 
+  border-bottom: 2px solid var(--color-border);
+  height: 3.5rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   z-index: 9999;
-  position: relative;
+  padding: 0 1rem;
 }
 
-.planner-title {
+span.planner-title {
   font-size: 1.5rem; 
   font-weight: 700; 
 }
 
-.planner-content {
+span.planner-title:hover {
+  cursor: pointer;
+  color: var(--color-primary);
+}
+
+main.planner-content {
   max-width: 1000px;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex-grow: 1;
 }
 
-.planner-layout {
+div.planner-layout {
   display: flex;
   flex-direction: row;
   gap: 1rem; 
@@ -174,13 +145,15 @@ header {
   box-sizing: border-box;
   padding: 1rem;
   justify-content: center;
+  width: 100%;
 }
   
-.planner-sidebar {
+aside.planner-sidebar {
   width: 100%;
   max-width: 300px;
   position: sticky;
-  top: 0;
+  align-self: flex-start;
+  top: calc(4.5rem + 2px);
 }
 
 .loading-text {

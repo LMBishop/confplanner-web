@@ -82,32 +82,26 @@ function deleteCalendar() {
 
   <template v-else-if="favouriteEvents.length > 0">
     <div class="page">
-      <Panel>
-        <h2 class="agenda-title">Agenda</h2>
+      <Panel title="Agenda">
         <ul class="agenda-list">
-          <li 
-            v-for="event in favouriteEvents" 
-            :key="event.id" 
-            class="agenda-item"
-          >
+          <li v-for="event in favouriteEvents" :key="event.id" class="agenda-item" >
             <EventListing :event="event" />
           </li>
         </ul>
       </Panel>
       <Panel>
-        <h2 class="calendar-title">Calendar</h2>
         <template v-if="calendarStatus === 'pending'">
           <span>Fetching calendar status...</span>
         </template>
         
         <div v-else-if="calendarStatus === 'idle'" class="calendar">
           <template v-if="calendarLink">
-            <span>You can add your agenda to your own calendar using the iCal link below.</span>
+            <span>You can add your agenda to your own calendar using the iCal link below</span>
             <Input :value="calendarLinkWithPageProtocol" readonly/>
             <Button @click="deleteCalendar" :loading="calendarAction">Delete calendar</Button>
           </template>
           <template v-else>
-            <span>You do not have a calendar link yet. Use the button below to request a calendar link synchronise with your own calendar app.</span>
+            <span>You do not have a calendar link yet. Use the button below to request a calendar link to subscribe to on your own calendar app.</span>
             <Button @click="generateCalendar" :loading="calendarAction">Request calendar</Button>
           </template>
         </div>
@@ -123,7 +117,7 @@ function deleteCalendar() {
 <style scoped>
 .agenda-list {
   list-style: none;
-  margin: 0;
+  margin: -1rem 0;
   padding: 0;
   display: grid;
 }

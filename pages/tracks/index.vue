@@ -5,8 +5,7 @@ const scheduleStore = useScheduleStore();
 </script>
 
 <template>
-  <Panel v-if="scheduleStore.schedule">
-    <h2 class="tracks-title">Tracks</h2>
+  <Panel v-if="scheduleStore.schedule" title="Tracks">
     <ul class="tracks-list">
       <li 
         v-for="track in scheduleStore.schedule.tracks" 
@@ -24,7 +23,7 @@ const scheduleStore = useScheduleStore();
 <style scoped>
 .tracks-list {
   list-style: none;
-  margin: 0.5rem 0 0 0;
+  margin: -0.5rem 0 0 0;
   padding: 0;
   display: grid;
 }

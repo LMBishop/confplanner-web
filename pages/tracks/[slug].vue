@@ -8,24 +8,23 @@ const track = scheduleStore.schedule?.tracks.find((track) => track.slug === rout
 </script>
 
 <template>
-  <Panel v-if="track">
-    <h2 class="events-title">{{ track.name }}</h2>
-      <ul class="events-list">
-        <li 
-          v-for="event in scheduleStore.eventsPerTrack[track.name]" 
-          :key="event.id" 
-          class="event-item"
-        >
-          <EventListing :event="event" />
-        </li>
-      </ul>
+  <Panel v-if="track" :title="track.name" :breadcrumbs="[{ text: 'Tracks', to: '/tracks' }]">
+    <ul class="events-list">
+      <li 
+        v-for="event in scheduleStore.eventsPerTrack[track.name]" 
+        :key="event.id" 
+        class="event-item"
+      >
+        <EventListing :event="event" />
+      </li>
+    </ul>
   </Panel>
 </template>
 
 <style>
 .events-list {
   list-style: none;
-  margin: 0;
+  margin: -1rem 0;
   padding: 0;
   display: grid;
 }

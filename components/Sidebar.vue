@@ -45,6 +45,8 @@ const timeUntilConferenceStart = computed(() => {
 
     <div class="info">
       <span>Times listed are in local time ({{ scheduleStore.schedule?.conference.timeZoneName }})</span>
+      
+      <Version />
     </div>
   </div>
 </template>
@@ -91,6 +93,9 @@ const timeUntilConferenceStart = computed(() => {
   font-size: var(--text-smaller);
   color: var(--color-text-muted);
   margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
   
 </style>
