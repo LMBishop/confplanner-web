@@ -1,4 +1,5 @@
 import { TZDate } from "@date-fns/tz";
+import { addDays } from "date-fns";
 import { defineStore } from "pinia";
 
 interface Schedule {
@@ -86,6 +87,9 @@ export const useScheduleStore = defineStore('schedule', () => {
       track.slug = convertToSlug(track.name)
       tracks.value[track.name] = track
     });
+    
+    newSchedule.conference.start = new TZDate(newSchedule.conference.start, newSchedule.conference.timeZoneName)
+    newSchedule.conference.end = addDays(new TZDate(newSchedule.conference.end, newSchedule.conference.timeZoneName), 1)
     
     events.value = []
     newSchedule.days.forEach(day => {

@@ -85,12 +85,12 @@ defineProps({
 }
 
 .error {
-  background-color: var(--color-error);
-  border: 0.1rem solid var(--color-border-error);
+  background-color: var(--color-error-light);
+  border: 0.1rem solid var(--color-border-error-light);
 }
 
 .success {
-  background-color: var(--color-success);
-  border: 0.1rem solid var(--color-border-success);
+  background-color: var(--color-success-light);
+  border: 0.1rem solid var(--color-border-success-light);
 }
 </style>

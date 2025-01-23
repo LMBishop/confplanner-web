@@ -5,17 +5,27 @@ import { LucideClock, LucideRadio } from "lucide-vue-next";
 const scheduleStore = useScheduleStore();
 const errorStore = useErrorStore();
 
-const timeUntilConferenceStart = computed(() => {
-  if (!scheduleStore.schedule) {
-    return 0;
-  }
+const timer = ref();
+const startsIn = ref();
+const ongoing = ref(false);
+const finished = ref(false);
 
-  const now = new Date();
-  const conferenceStart = new Date(scheduleStore.schedule.conference.start);
-  const diff = conferenceStart.getTime() - now.getTime();
+onMounted(() => {
+  startsIn.value = formatDistanceToNow(scheduleStore.getStartDate());
+  ongoing.value = scheduleStore.isConferenceOngoing();
+  finished.value = scheduleStore.isConferenceFinished();
 
-  return diff;
+  timer.value = setInterval(() => {
+    startsIn.value = formatDistanceToNow(scheduleStore.getStartDate());
+    ongoing.value = scheduleStore.isConferenceOngoing();
+    finished.value = scheduleStore.isConferenceFinished();
+  }, 1000);
 });
+
+onBeforeUnmount(() => {
+  clearInterval(timer.value);
+});
+
 </script>
 
 <template>
@@ -28,17 +38,17 @@ const timeUntilConferenceStart = computed(() => {
       <Button kind="secondary" @click="errorStore.setError('This doesn\'t do anything yet :-)')">Change conference</Button>
     </Panel>
     
-    <Panel kind="success" class="ongoing" v-if="scheduleStore.isConferenceOngoing()">
-      <span class="text-icon"><LucideRadio /> <span>This conference is ongoing</span></span>
-      <Button kind="primary" @click="navigateTo('/live')">View live</Button>
+    <Panel kind="success" class="ongoing" v-if="ongoing">
+      <span>This conference is ongoing</span>
+      <Button kind="primary" :icon="LucideRadio" @click="navigateTo('/live')">View live</Button>
     </Panel> 
 
-    <Panel kind="error" class="finished" v-else-if="scheduleStore.isConferenceFinished()">
+    <Panel kind="error" class="finished" v-else-if="finished">
       <span>This conference has finished</span>
     </Panel> 
     
     <Panel class="upcoming" v-else>
-      <span class="text-icon"><LucideClock /> <span>Starts in {{ formatDistanceToNow(scheduleStore.getStartDate()) }}</span></span>
+      <span class="text-icon"><LucideClock /> <span>Starts in {{ startsIn }}</span></span>
     </Panel>
     
     <Nav />

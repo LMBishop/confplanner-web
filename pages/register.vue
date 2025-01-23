@@ -133,7 +133,7 @@ const handleSubmit = async (e: Event) => {
 }
 
 .auth-error {
-  color: var(--color-error);
+  color: var(--color-error-light);
 }
 
 .form-group {

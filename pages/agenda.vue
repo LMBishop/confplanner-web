@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Panel from '~/components/Panel.vue';
-import { LucideRadio } from "lucide-vue-next";
+import Dialog from '~/components/Dialog.vue';
 
 const favouritesStore = useFavouritesStore();
 const scheduleStore = useScheduleStore();
@@ -17,15 +17,14 @@ const calendarLinkWithPageProtocol = computed(() => {
   return window.location.protocol + '//' + calendarLink.value;
 });
 
+const refConfirmDeleteDialog = ref<typeof Dialog>();
+
 const calendarAction = ref(false);
 
 useFetch(config.public.baseURL + '/calendar', {
   method: 'GET',
   server: false,
   lazy: true,
-  onResponseError: ({ response }) => {
-    calendarStatus.value = 'idle';
-  },
   onResponse: ({ response }) => {
     if (!response.ok) {
       if (response.status !== 404) {
@@ -43,7 +42,7 @@ function generateCalendar() {
   useFetch(config.public.baseURL + '/calendar', {
     method: 'POST',
     server: false,
-  lazy: true,
+    lazy: true,
     onResponseError: ({ response }) => {
       errorStore.setError(response._data.message || 'An unknown error occurred');
       calendarAction.value = false;
@@ -98,7 +97,7 @@ function deleteCalendar() {
           <template v-if="calendarLink">
             <span>You can add your agenda to your own calendar using the iCal link below</span>
             <Input :value="calendarLinkWithPageProtocol" readonly/>
-            <Button @click="deleteCalendar" :loading="calendarAction">Delete calendar</Button>
+            <Button @click="refConfirmDeleteDialog!.show()" :loading="calendarAction">Delete calendar</Button>
           </template>
           <template v-else>
             <span>You do not have a calendar link yet. Use the button below to request a calendar link to subscribe to on your own calendar app.</span>
@@ -112,6 +111,15 @@ function deleteCalendar() {
   <Panel v-else>
     <span>You have not added any favourites yet.</span>
   </Panel>
+  
+  <Dialog ref="refConfirmDeleteDialog" title="Delete calendar" :confirmation="true" @submit="deleteCalendar" :fit-contents="true">
+    <span>Are you sure you want to delete your calendar?</span>
+    <span>Your unique link cannot be recovered if you do so.</span>
+    <template v-slot:actions>
+      <Button kind="secondary" type="button" @click="refConfirmDeleteDialog!.close()">Cancel</Button>
+      <Button kind="danger" type="submit" :loading="calendarAction">Delete</Button>
+    </template>
+  </Dialog>
 </template>
 
 <style scoped>

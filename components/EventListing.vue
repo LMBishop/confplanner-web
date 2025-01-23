@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { StarIcon } from 'lucide-vue-next';
-import { add, format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { type Event as ScheduledEvent } from '~/stores/schedule';
 import Spinner from './Spinner.vue';
 
-const { event } = defineProps<{
+const { event, showRelativeTime } = defineProps<{
   event: ScheduledEvent;
+  showRelativeTime?: boolean;
 }>();
 
 const selectedEventStore = useSelectedEventStore();
@@ -14,6 +15,29 @@ const errorStore = useErrorStore();
 const config = useRuntimeConfig();
 
 const addingToFavourite = ref(false);
+const relativeTime = ref();
+const timer = ref();
+
+const updateRelativeTime = () => {
+  if (event.start < new Date() && event.end > new Date()) {
+    relativeTime.value = 'now';
+  } else {
+    relativeTime.value = `in ${formatDistanceToNow(event.start)}`
+  }
+};
+
+onMounted(() => {
+  if (showRelativeTime) {
+    updateRelativeTime();
+    timer.value = setInterval(updateRelativeTime, 1000);
+  }
+});
+
+onUnmounted(() => {
+  if (timer.value) {
+    clearInterval(timer.value);
+  }
+});
 
 const addFavourite = async () => {
   addingToFavourite.value = true;
@@ -74,7 +98,7 @@ const removeFavourite = async () => {
   <div class="event">
     <div class="event-details" @click="selectedEventStore.setSelectedEvent(event)">
       <span class="event-info">
-        {{ format(event.start, "kk:mm") }} - {{ format(event.end, "kk:mm") }}, {{ event.room }}
+        <span>{{ format(event.start, "kk:mm") }} - {{ format(event.end, "kk:mm") }},</span> <span>{{ event.room }}</span> <span v-if="showRelativeTime">-</span> <span v-if="showRelativeTime" class="relative-time">{{ relativeTime }}</span>
       </span>
       <span class="event-title">{{ event.title }}</span>
       <span class="event-speaker">{{ event.persons.map(p => p.name).join(", ") }}</span>
@@ -146,6 +170,10 @@ const removeFavourite = async () => {
 
 .event-button-loading {
   cursor: progress;
+}
+  
+.relative-time {
+  color: var(--color-text-success);
 }
 
 </style>

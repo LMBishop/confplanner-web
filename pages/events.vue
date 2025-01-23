@@ -10,7 +10,7 @@ const scheduleStore = useScheduleStore();
     <div v-for="[day, events] of Object.entries(scheduleStore.eventsPerDay)" :key="day" class="events-container">
       <ul class="events-list">
         <li v-for="event in events" :key="event.id" class="event-item" :data-index="event.id">
-          <EventListing :event="event" />
+          <EventListing :event="event" :show-relative-time="true" />
         </li>
       </ul>
     </div>

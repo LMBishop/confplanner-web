@@ -5,18 +5,22 @@
   --color-accent: #6366f1;
   --color-primary: #4f46e5;
   --color-primary-dark: #4338ca;
-  --color-error: #f8d7da;
-  --color-success: #d1e7dd;
+  --color-favourite: #f6e05e;
+  --color-error: #cf2f27;
+  --color-error-light: #f8d7da;
+  --color-error-dark: #ad1f2b;
+  --color-success-light: #d1e7dd;
+
   --color-text: #000;
   --color-text-error: #cf2f27;
+  --color-text-success: #3d9970;
   --color-text-muted: #4b5563;
   --color-text-muted-light: #6b7280;
   --color-background-muted: #f3f4f6;
   --color-background: #fff;
   --color-border: #d1d9e0;
-  --color-border-error: #f1aeb5;
-  --color-border-success: #a3cfbb;
-  --color-favourite: #f6e05e;
+  --color-border-error-light: #f1aeb5;
+  --color-border-success-light: #a3cfbb;
 
   --text-smaller: 0.75rem;
   --text-small: 0.875rem;

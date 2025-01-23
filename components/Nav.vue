@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Calendar, Icon, SquareGanttChart, TrainTrack } from 'lucide-vue-next';
+import { Calendar, SquareGanttChart, TrainTrack } from 'lucide-vue-next';
 
 const route = useRouter();
 

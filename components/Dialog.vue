@@ -7,6 +7,7 @@ const refDialog = ref<HTMLDialogElement | null>(null);
 const props = defineProps<{
   kind?: 'normal' | 'error';
   fitContents?: boolean;
+  title?: string;
 }>();
 
 const showModal = () => {
@@ -18,7 +19,7 @@ const closeModal = () => {
   refDialog.value?.close();
 };
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submit']);
 
 defineExpose({
   show: showModal,
@@ -29,6 +30,15 @@ defineExpose({
 const onClose = () => {
   visible.value = false;
   emit('close');
+};
+
+const onSubmit = (e: Event) => {
+  e.preventDefault();
+  const formData = new FormData(e.target as HTMLFormElement);
+  const formValue = Object.fromEntries(formData.entries());
+  emit('submit', formValue);
+  
+  closeModal();
 };
 
 const onDivClick = (e: MouseEvent) => {
@@ -43,10 +53,16 @@ const onDialogClick = (e: MouseEvent) => {
 </script>
 
 <template>
-  <dialog ref="refDialog" @click="onDialogClick" @close="onClose" :class="[props.kind, { fit: props.fitContents }]">
+  <dialog ref="refDialog" @click="onDialogClick" @close="onClose" @submit="onSubmit" :class="[props.kind ?? 'normal', { fit: props.fitContents }]">
     <div @click="onDivClick">
       <form v-if="visible" method="dialog">
+        <div class="title" v-if="title">{{ props.title }}</div>
+
         <slot />
+        
+        <div class="actions" v-if="$slots.actions">
+          <slot name="actions" class="actions" />
+        </div>
       </form>
     </div>
   </dialog>
@@ -72,8 +88,8 @@ dialog.normal {
 }
 
 dialog.error {
-  border: 2px solid var(--color-border-error);
-  background-color: var(--color-error);
+  border: 2px solid var(--color-border-error-light);
+  background-color: var(--color-error-light);
 }
 
 dialog.fit {
@@ -86,10 +102,21 @@ dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-div.actions {
+form {
   display: flex;
-  margin-top: 12px;
-  gap: 8px;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+div.title {
+  font-size: var(--text-larger);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-self: flex-end;
   justify-content: flex-end;
 }
 </style>
