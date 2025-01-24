@@ -173,13 +173,13 @@ aside.planner-sidebar {
   display: none;
 }
       
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .hamburger-content {
     display: none;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .planner-layout {
     flex-direction: column;
     padding: 0.5rem;

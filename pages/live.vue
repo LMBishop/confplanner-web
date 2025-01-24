@@ -130,4 +130,10 @@ div.actions > span.status {
   font-style: italic;
   font-size: var(--text-small);
 }
+
+@media (max-width: 800px) {
+  div.actions > span.status {
+    display: none;
+  }  
+}
 </style>
