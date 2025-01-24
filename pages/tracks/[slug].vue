@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TrainTrack } from 'lucide-vue-next';
 import { useScheduleStore } from '~/stores/schedule';
 
 const route = useRoute();
@@ -8,7 +9,7 @@ const track = scheduleStore.schedule?.tracks.find((track) => track.slug === rout
 </script>
 
 <template>
-  <Panel v-if="track" :title="track.name" :breadcrumbs="[{ text: 'Tracks', to: '/tracks' }]">
+  <Panel v-if="track" :title="track.name" :breadcrumbs="[{ text: 'Tracks', to: '/tracks' }]" :icon="TrainTrack">
     <ul class="events-list">
       <li 
         v-for="event in scheduleStore.eventsPerTrack[track.name]" 

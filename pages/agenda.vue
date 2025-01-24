@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Panel from '~/components/Panel.vue';
 import Dialog from '~/components/Dialog.vue';
+import { Calendar } from 'lucide-vue-next';
 
 const favouritesStore = useFavouritesStore();
 const scheduleStore = useScheduleStore();
@@ -79,9 +80,9 @@ function deleteCalendar() {
     <span>Updating favourites...</span>
   </Panel>
 
-  <template v-else-if="favouriteEvents.length > 0">
+  <template v-else-if="favouriteEvents.length > 0" >
     <div class="page">
-      <Panel title="Agenda">
+      <Panel title="Agenda" :icon="Calendar">
         <ul class="agenda-list">
           <li v-for="event in favouriteEvents" :key="event.id" class="agenda-item" >
             <EventListing :event="event" />

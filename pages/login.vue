@@ -28,7 +28,7 @@ const handleSubmit = async (e: Event) => {
       server: false,
     });
     
-    navigateTo("/events");
+    navigateTo("/");
   } catch (e: any) {
     if ((e as FetchError).data) {
       error.value = e.data.message
@@ -102,7 +102,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.auth-container {
+div.auth-container {
   min-height: 100vh;
   background-color: var(--color-background-muted);
   display: flex;
@@ -111,7 +111,7 @@ onMounted(() => {
   gap: 1rem;
 }
 
-.auth-header {
+div.auth-header {
   margin: 0 auto;
   width: 100%;
   max-width: 28rem;
@@ -121,53 +121,61 @@ onMounted(() => {
   flex-direction: column;
 }
 
-.auth-title {
+h2.auth-title {
   margin-top: 1.5rem;
   font-size: 1.875rem;
   font-weight: 800;
   color: #1f2937; 
 }
 
-.auth-body {
+div.auth-body {
   margin-top: 2rem; 
   margin: 0 auto;
   width: 100%;
   max-width: 28rem; 
 }
 
-.auth-form {
+form.auth-form {
   display: grid;
   gap: 1.5rem; 
 }
 
-.auth-error {
+div.auth-error {
   color: var(--color-text-error);
   font-style: oblique;
 }
 
-.form-group {
+div.form-group {
   display: flex;
   flex-direction: column;
 }
 
-.form-label {
+label.form-label {
   display: block;
   font-size: 0.875rem; 
   font-weight: 500;
   color: #374151; 
 }
 
-.form-input-container {
+div.form-input-container {
   margin-top: 0.25rem; 
 }
 
-.form-footer {
+div.form-footer {
   display: flex;
   justify-content: flex-end;
   margin: 0 auto;
   max-width: 28rem;
 }
 
+div.form-submit {
+  display: flex;
+}
+
+div.form-submit button {
+  width: 100%;
+}
+    
 .version {
   font-size: var(--text-smaller);
   margin: 0 auto;
@@ -179,10 +187,6 @@ onMounted(() => {
   font-weight: 500; 
 }
 
-.form-submit {
-  display: flex;
-}
-    
 input[name="username"] {
   text-transform: lowercase;
 }

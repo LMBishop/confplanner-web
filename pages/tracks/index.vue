@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { TrainTrack } from 'lucide-vue-next';
 import Panel from '~/components/Panel.vue';
 
 const scheduleStore = useScheduleStore();
 </script>
 
 <template>
-  <Panel v-if="scheduleStore.schedule" title="Tracks">
+  <Panel v-if="scheduleStore.schedule" title="Tracks" :icon="TrainTrack">
     <ul class="tracks-list">
       <li 
         v-for="track in scheduleStore.schedule.tracks" 

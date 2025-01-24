@@ -94,7 +94,7 @@ const handleSubmit = async (e: Event) => {
 </template>
 
 <style scoped>
-.auth-container {
+div.auth-container {
   min-height: 100vh;
   background-color: var(--color-background-muted);
   display: flex;
@@ -103,7 +103,7 @@ const handleSubmit = async (e: Event) => {
   gap: 1rem;
 }
 
-.auth-header {
+div.auth-header {
   margin: 0 auto;
   width: 100%;
   max-width: 28rem;
@@ -113,59 +113,64 @@ const handleSubmit = async (e: Event) => {
   flex-direction: column;
 }
 
-.auth-title {
+h2.auth-title {
   margin-top: 1.5rem;
   font-size: 1.875rem;
   font-weight: 800;
   color: #1f2937; 
 }
 
-.auth-body {
+div.auth-body {
   margin-top: 2rem; 
   margin: 0 auto;
   width: 100%;
   max-width: 28rem; 
 }
 
-.auth-form {
+form.auth-form {
   display: grid;
   gap: 1.5rem; 
 }
 
-.auth-error {
-  color: var(--color-error-light);
+div.auth-error {
+  color: var(--color-text-error);
+  font-style: oblique;
 }
 
-.form-group {
+div.form-group {
   display: flex;
   flex-direction: column;
 }
 
-.form-label {
+label.form-label {
   display: block;
   font-size: 0.875rem; 
   font-weight: 500;
   color: #374151; 
 }
 
-.form-input-container {
+div.form-input-container {
   margin-top: 0.25rem; 
 }
 
-.form-footer {
+div.form-footer {
   display: flex;
   justify-content: flex-end;
   margin: 0 auto;
   max-width: 28rem;
 }
 
+div.form-submit {
+  display: flex;
+}
+
+div.form-submit button {
+  width: 100%;
+}
+
 .register-link {
   font-size: var(--text-small); 
   font-weight: 500; 
-}
-
-.form-submit {
-  display: flex;
 }
 
 .auth-error {

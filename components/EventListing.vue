@@ -127,7 +127,7 @@ const removeFavourite = async () => {
 }
 
 .event-details:hover {
-  background-color: var(--color-background-muted);
+  background-color: var(--color-hover);
 }
 
 .event {

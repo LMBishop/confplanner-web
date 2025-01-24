@@ -42,7 +42,6 @@ defineProps({
 
 <style scoped>
 button {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,7 +89,7 @@ button.primary:hover {
 }
   
 button.secondary {
-  background-color: var(--color-background);
+  background-color: unset;
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
 }

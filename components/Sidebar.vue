@@ -78,6 +78,10 @@ onBeforeUnmount(() => {
   text-align: center;
 }
 
+.ongoing button {
+  width: 100%;
+}
+
 .finished svg, .ongoing svg, .upcoming svg{
   height: var(--text-small)  ;
   width: var(--text-small);
